@@ -42,4 +42,17 @@ describe('ProblemeComponent', () => {
     let errors = zone.errors || {};
     expect(errors['minlength']).toBeTruthy();
   });
+  it('#3 | Zone PRENOM valide avec 200 caracteres', () =>{
+    let zone = component.problemeForm.controls['prenom'];
+    zone.setValue('a'.repeat(200));
+    let errors = zone.errors || {};
+    expect(errors['minlength']).toBeTruthy();
+  });
+  it('#4 | Zone PRENOM invalide avec aucune valeur', () =>{
+    let zone = component.problemeForm.controls['prenom'];
+    zone.setValue(null);
+    let errors = zone.errors || {};
+    expect(errors['minlength']).toBeTruthy();
+  });
+
 });
