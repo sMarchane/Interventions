@@ -21,7 +21,13 @@ export class ProblemeComponent implements OnInit {
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
         prenom: ['',[VerifierCaracteresValidator.longueurMinimum(3), Validators.required]],
-        noTypeProbleme: ['', [Validators.required]]
+        nom: ['', [Validators.maxLength(50), Validators.required]],
+        noTypeProbleme: ['', [Validators.required]],
+        courrielGroup: this.fb.group({
+          courriel: [{value: '', disabled: true}],
+          courrielConfirmation: [{value: '', disabled: true}],
+        }),
+      telephone: [{value: '', disabled: true}],
     });
 
     this.typeproblemeService.obtenirTypesprobleme()
@@ -31,5 +37,25 @@ export class ProblemeComponent implements OnInit {
   save(): void{ 
 
   }
+  appliquerNotification(notifyVia: string): void {
+    const courrielControl = this.problemeForm.get('courrielGroup.courriel');
+    const courrielConfirmationControl = this.problemeForm.get('courrielGroup.courrielConfirmation');   
+    const telephoneControl = this.problemeForm.get('telephone');      
 
+    // Tous remettre à zéro
+    courrielControl.clearValidators();
+    courrielControl.reset();  // Pour enlever les messages d'erreur si le controle contenait des données invaldides
+    courrielControl.disable();  
+
+    courrielConfirmationControl.clearValidators();
+    courrielConfirmationControl.reset();    
+    courrielConfirmationControl.disable();
+
+    telephoneControl.clearValidators();
+    telephoneControl.reset();    
+    telephoneControl.disable();
+    telephoneControl.updateValueAndValidity();
+    courrielControl.updateValueAndValidity();
+    courrielConfirmationControl.updateValueAndValidity();
+  }
 }
