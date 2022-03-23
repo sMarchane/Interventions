@@ -28,9 +28,10 @@ export class ProblemeComponent implements OnInit {
           courriel: [{value: '', disabled: true}],
           courrielConfirmation: [{value: '', disabled: true}],
         }),
+      notification:['pasnotification'],  
       telephone: [{value: '', disabled: true}],
     });
-
+    this.problemeForm.get('notification').valueChanges    .subscribe(value => this.appliquerNotification(value));
     this.typeproblemeService.obtenirTypesprobleme()
     .subscribe(tp => this.typesprobleme = tp,
     error => this.errorMessage = <any>error);
