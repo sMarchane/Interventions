@@ -30,6 +30,9 @@ export class ProblemeComponent implements OnInit {
         }),
       notification:['pasnotification'],  
       telephone: [{value: '', disabled: true}],
+      descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],
+      noUnite: '',
+      dateProbleme: {value: Date(), disabled: true}
     });
     this.problemeForm.get('notification').valueChanges    .subscribe(value => this.appliquerNotification(value));
     this.typeproblemeService.obtenirTypesprobleme()
