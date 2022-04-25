@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { emailMatcherValidator } from '../shared/longueur-minimum/email-matcher/email-matcher.component.spec';
 import { VerifierCaracteresValidator } from '../shared/longueur-minimum/longueur-minimum.component';
+import { IProbleme } from './probleme';
 import { TypeProblemeService } from './type-probleme.service';
-import { ITypeProbleme } from './typeProbleme';
+import { ITypeProbleme } from './TypeProbleme';
 
 @Component({
   selector: 'Inter-probleme',
@@ -14,6 +15,9 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   typesprobleme: ITypeProbleme[];
   errorMessage: string;
+  probleme: IProbleme;
+  problemeService: any;
+  route: any;
   
   
 
@@ -39,9 +43,30 @@ export class ProblemeComponent implements OnInit {
     .subscribe(tp => this.typesprobleme = tp,
     error => this.errorMessage = <any>error);
   }
-  save(): void{ 
-
+  save(): void {
+    if (this.problemeForm.dirty && this.problemeForm.valid) {
+        // Copy the form values over the problem object values
+        this.probleme = this.problemeForm.value;
+        this.probleme.id = 0;
+        this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
+        //this.probleme.dateProbleme = new Date();
+        this.typeproblemeService.saveProbleme(this.probleme)
+            .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
+                () => this.onSaveComplete(),  // Fonction callback
+                (error: any) => this.errorMessage = <any>error
+            );
+    } else if (!this.problemeForm.dirty) {
+        this.onSaveComplete();
+    }
   }
+
+
+  onSaveComplete(): void { 
+    // Reset the form to clear the flags
+    this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+    this.route.navigate(['/accueil']);
+  }
+
   appliquerNotification(notifyVia: string): void {
     const courrielControl = this.problemeForm.get('courrielGroup.courriel');
     const courrielConfirmationControl = this.problemeForm.get('courrielGroup.courrielConfirmation');   

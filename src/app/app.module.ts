@@ -20,8 +20,7 @@ import { ProblemeData } from './probleme/ProblemeData-data';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(ProblemeData, { delay: 1000}), 
+    HttpClientModule, 
      RouterModule.forRoot([
        { path:'accueil', component:AccueilComponent},
        { path:'probleme', component:ProblemeComponent}
