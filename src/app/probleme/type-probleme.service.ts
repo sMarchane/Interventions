@@ -39,7 +39,8 @@ private httpOptions = {
 
   
     
-  private baseUrl = 'https://localhost:7104/Intervention';
+  //private baseUrl = 'https://localhost:7104/Intervention';
+  private baseUrl = 'https://interventionssm2021.azurewebsites.net/Intervention';
 
   obtenirTypesprobleme(): Observable<ITypeProbleme[]> {
 
